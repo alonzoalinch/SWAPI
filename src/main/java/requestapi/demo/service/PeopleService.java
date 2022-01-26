@@ -1,11 +1,10 @@
 package requestapi.demo.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import requestapi.demo.model.People;
+import requestapi.demo.model.PeopleSearchResponse;
 
 @Service
 public class PeopleService {
@@ -16,25 +15,23 @@ public class PeopleService {
 
     public People findPeople(String id) {
 
-        People people = new People();
+        return webClient.get()
+                .uri("/{id}", id)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(People.class)
+                .block();
+    }
 
-        String result =
-                webClient.get()
-                        .uri("/{id}", id)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .retrieve()
-                        .bodyToMono(String.class)
-                        .block();//.toString();
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        try {
-            people = objectMapper.readValue(result, People.class);
-            System.out.println("name: " + people.getName());
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+    public PeopleSearchResponse searchPeople(String keyword) {
+        if (keyword == null) {
+            throw new IllegalStateException("empty Keyword");
         }
-
-        return people;
+        return webClient.get()
+                .uri("?search={search}", keyword)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(PeopleSearchResponse.class)
+                .block();
     }
 }
