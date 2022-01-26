@@ -28,10 +28,14 @@ public class PeopleService {
             throw new IllegalStateException("empty Keyword");
         }
         return webClient.get()
-                .uri("?search={search}", keyword)
+                .uri(uriBuilder -> uriBuilder
+                        .queryParam("search", keyword)
+                        .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(PeopleSearchResponse.class)
                 .block();
+
+
     }
 }
