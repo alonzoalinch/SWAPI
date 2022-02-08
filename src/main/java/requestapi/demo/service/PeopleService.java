@@ -23,13 +23,13 @@ public class PeopleService {
                 .block();
     }
 
-    public PeopleSearchResponse searchPeople(String keyword) {
-        if (keyword == null) {
-            throw new IllegalStateException("empty Keyword");
+    public PeopleSearchResponse searchPeople(String search) {
+        if (search == null) {
+            throw new IllegalStateException("Keyword not found");
         }
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .queryParam("search", keyword)
+                        .queryParam("search", search)
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()

@@ -1,13 +1,15 @@
 package requestapi.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Film {
     private String title;
     @JsonProperty("episode_id")
@@ -18,52 +20,12 @@ public class Film {
     private String producer;
     @JsonProperty("release_date")
     private Date releaseDate;
-    private List<People> characters;
-    private List<Planet> planets;
-    private List<Starship> starships;
-    private List<Vehicle> vehicles;
-    private List<Specie> species;
+    private List<String> characters;
+    private List<String> planets;
+    private List<String> starships;
+    private List<String> vehicles;
+    private List<String> species;
     private String created;
     private String edited;
     private String url;
-
-    public Film() {
-    }
-
-    public Film(String title, Integer episodeId, String openingCrawl, String director, String producer, Date releaseDate, List<People> characters, List<Planet> planets, List<Starship> starships, List<Vehicle> vehicles, List<Specie> species, String created, String edited, String url) {
-        this.title = title;
-        this.episodeId = episodeId;
-        OpeningCrawl = openingCrawl;
-        this.director = director;
-        this.producer = producer;
-        this.releaseDate = releaseDate;
-        this.characters = characters;
-        this.planets = planets;
-        this.starships = starships;
-        this.vehicles = vehicles;
-        this.species = species;
-        this.created = created;
-        this.edited = edited;
-        this.url = url;
-    }
-
-    @Override
-    public String toString() {
-        return "Film{" +
-                "title='" + title + '\'' +
-                ", episodeId=" + episodeId +
-                ", OpeningCrawl='" + OpeningCrawl + '\'' +
-                ", director='" + director + '\'' +
-                ", producer='" + producer + '\'' +
-                ", releaseDate=" + releaseDate +
-                ", characters=" + characters +
-                ", planets=" + planets +
-                ", starships=" + starships +
-                ", vehicles=" + vehicles +
-                ", species=" + species +
-                ", created='" + created + '\'' +
-                ", edited='" + edited + '\'' +
-                ", url='" + url + '\'' +
-                '}';
-    }
 }
